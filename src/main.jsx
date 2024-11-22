@@ -11,6 +11,9 @@ import { Home } from './pages/Home';
 import { Account } from './pages/Account';
 import { Detail } from './pages/Detail';
 import { Shop } from './pages/Shop';
+import { CheckOut } from './pages/CheckOut';
+import Billing from './components/Cart/Billing';
+import { BillingDetails } from './pages/BillingDetails';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +31,14 @@ const router = createBrowserRouter([
   {
     path:'/shopnow',
     element: <Shop/>
+  },
+  {
+    path:'/cart',
+    element: <CheckOut/>
+  },
+  {
+    path:'/checkout',
+    element: <BillingDetails/>
   },
 ]);
 
