@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [isRegister, setIsRegister] = useState(false); // Toggle between Login and Register
@@ -9,10 +10,12 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [name, setName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const navigate = useNavigate();
+
   // Example accounts
   const exampleAccounts = [
-    { email: 'admin@gmail.com', password: '123456' },
-    { email: 'viphong1909@gmail.com', password: '123456' },
+    { email: 'admin@gmail.com', password: '123456', role: "admin" },
+    { email: 'viphong1909@gmail.com', password: '123456', role: "user" },
   ];
 
   const handleInputChange = (e) => {
@@ -25,15 +28,19 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const isValidAccount = exampleAccounts.some(
-      (account) => account.email === email && account.password === password
+    const account = exampleAccounts.find(
+      (acc) => acc.email === email && acc.password === password
     );
 
-    if (isValidAccount) {
-      onLoginSuccess(email); // Notify parent about login success
-      onClose(); // Close the modal
+    if (account) {
+      if (account.role === "admin") {
+        navigate("/admin"); // Redirect to admin page
+      } else {
+        onLoginSuccess(email); // Notify parent about login success
+        onClose(); // Close the modal
+      }
     } else {
-      setErrorMessage('Invalid email or password. Please try again.');
+      setErrorMessage("Invalid email or password. Please try again.");
     }
   };
 
